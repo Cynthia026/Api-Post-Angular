@@ -1,0 +1,44 @@
+<div class="container">
+
+  <h1>POST Demo (CrudCrud)</h1>
+
+  <!-- Input para la URL del API -->
+  <div class="form">
+    <label>API Base URL (CrudCrud)</label>
+    <input
+      type="text"
+      [(ngModel)]="apiBaseUrl"
+      placeholder="https://crudcrud.com/api/XXXX"
+    />
+  </div>
+
+  <hr />
+
+  <!-- Formulario del POST -->
+  <div class="form">
+    <label>Título</label>
+    <input type="text" [(ngModel)]="form.title" placeholder="Título..." />
+
+    <label>Body</label>
+    <textarea [(ngModel)]="form.body" rows="4" placeholder="Escribe algo..."></textarea>
+
+    <label>UserId</label>
+    <input type="number" [(ngModel)]="form.userId" />
+
+    <button (click)="sendPost()" [disabled]="loading">
+      {{ loading ? 'Enviando...' : 'Enviar POST' }}
+    </button>
+  </div>
+
+  <!-- Error -->
+  <p *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </p>
+
+  <!-- Resultado del POST -->
+  <div *ngIf="createdPost" class="card">
+    <h2>✅ Creado</h2>
+    <pre>{{ createdPost | json }}</pre>
+  </div>
+
+</div>
