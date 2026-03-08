@@ -110,7 +110,7 @@ type PostMode = 'AUTH' | 'STANDARD' | 'VIP' | 'EVENT' | 'LONGSTAY' | 'GROUP';
     .code-box { background: #000; padding: 15px; border-radius: 8px; color: #4facfe; overflow-x: auto; font-family: monospace; }
     .muted { color: #aaa; font-size: 14px; line-height: 1.5;}
     .spinner { width: 24px; height: 24px; border-radius: 50%; border: 3px solid rgba(255,255,255,.3); border-top-color: white; animation: spin 1s linear infinite; display: inline-block; }
-    @keyframes spin{ to{ transform: rotate(360deg);} }
+    @keyframes spin { to { transform: rotate(360deg);} }
   `]
 })
 export class AppComponent {
@@ -119,7 +119,6 @@ export class AppComponent {
   serverResponse = signal<any | null>(null);
   errorMessage = signal<string>('');
 
-  // AQUÍ GUARDAMOS LA URL QUE ESCRIBES EN LA PANTALLA
   apiBaseUrl: string = 'https://restful-booker.herokuapp.com';
 
   authPayload = { username: 'admin', password: 'password123' };
@@ -134,27 +133,77 @@ export class AppComponent {
     this.serverResponse.set(null);
     this.errorMessage.set('');
 
-    switch(newMode) {
-        case 'STANDARD':
-            this.currentBooking = { firstname: 'Flor', lastname: 'Salvador', totalprice: 150, depositpaid: true, bookingdates: { checkin: '2026-04-01', checkout: '2026-04-05' }, additionalneeds: 'Desayuno incluido' };
-            break;
-        case 'VIP':
-            this.currentBooking = { firstname: 'Humbe', lastname: 'Dueño del Cielo', totalprice: 3500, depositpaid: true, bookingdates: { checkin: '2026-05-10', checkout: '2026-05-12' }, additionalneeds: 'Suite presidencial, privacidad máxima' };
-            break;
-        case 'EVENT':
-            this.currentBooking = { firstname: 'Paty', lastname: 'Sorpresa 60', totalprice: 800, depositpaid: false, bookingdates: { checkin: '2026-06-15', checkout: '2026-06-16' }, additionalneeds: 'Decoración temática de Cielito Lindo en la habitación' };
-            break;
-        case 'LONGSTAY':
-            this.currentBooking = { firstname: 'Estudiante', lastname: 'ITP', totalprice: 4500, depositpaid: true, bookingdates: { checkin: '2026-08-01', checkout: '2026-12-15' }, additionalneeds: 'Escritorio amplio e internet de alta velocidad' };
-            break;
-        case 'GROUP':
-            this.currentBooking = { firstname: 'Equipo', lastname: 'Desarrollo API', totalprice: 2000, depositpaid: true, bookingdates: { checkin: '2026-07-20', checkout: '2026-07-25' }, additionalneeds: 'Sala de juntas reservada' };
-            break;
+    switch (newMode) {
+      case 'AUTH':
+        this.currentBooking = this.getDefaultBooking();
+        break;
+
+      case 'STANDARD':
+        this.currentBooking = {
+          firstname: 'Flor',
+          lastname: 'Salvador',
+          totalprice: 150,
+          depositpaid: true,
+          bookingdates: { checkin: '2026-04-01', checkout: '2026-04-05' },
+          additionalneeds: 'Desayuno incluido'
+        };
+        break;
+
+      case 'VIP':
+        this.currentBooking = {
+          firstname: 'Humbe',
+          lastname: 'Dueño del Cielo',
+          totalprice: 3500,
+          depositpaid: true,
+          bookingdates: { checkin: '2026-05-10', checkout: '2026-05-12' },
+          additionalneeds: 'Suite presidencial, privacidad máxima'
+        };
+        break;
+
+      case 'EVENT':
+        this.currentBooking = {
+          firstname: 'Paty',
+          lastname: 'Sorpresa 60',
+          totalprice: 800,
+          depositpaid: false,
+          bookingdates: { checkin: '2026-06-15', checkout: '2026-06-16' },
+          additionalneeds: 'Decoración temática de Cielito Lindo en la habitación'
+        };
+        break;
+
+      case 'LONGSTAY':
+        this.currentBooking = {
+          firstname: 'Estudiante',
+          lastname: 'ITP',
+          totalprice: 4500,
+          depositpaid: true,
+          bookingdates: { checkin: '2026-08-01', checkout: '2026-12-15' },
+          additionalneeds: 'Escritorio amplio e internet de alta velocidad'
+        };
+        break;
+
+      case 'GROUP':
+        this.currentBooking = {
+          firstname: 'Equipo',
+          lastname: 'Desarrollo API',
+          totalprice: 2000,
+          depositpaid: true,
+          bookingdates: { checkin: '2026-07-20', checkout: '2026-07-25' },
+          additionalneeds: 'Sala de juntas reservada'
+        };
+        break;
     }
   }
 
   getDefaultBooking(): BookingPayload {
-    return { firstname: '', lastname: '', totalprice: 0, depositpaid: false, bookingdates: { checkin: '', checkout: '' }, additionalneeds: '' };
+    return {
+      firstname: '',
+      lastname: '',
+      totalprice: 0,
+      depositpaid: false,
+      bookingdates: { checkin: '', checkout: '' },
+      additionalneeds: ''
+    };
   }
 
   sendPost() {
@@ -179,14 +228,25 @@ export class AppComponent {
       }
     };
 
-    // Pasamos this.apiBaseUrl a cada llamada del servicio
-    switch(this.mode()) {
-      case 'AUTH': this.bookerService.createToken(this.apiBaseUrl, this.authPayload).subscribe(observer); break;
-      case 'STANDARD': this.bookerService.createStandardBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer); break;
-      case 'VIP': this.bookerService.createVipBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer); break;
-      case 'EVENT': this.bookerService.createEventBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer); break;
-      case 'LONGSTAY': this.bookerService.createLongStayBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer); break;
-      case 'GROUP': this.bookerService.createGroupBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer); break;
+    switch (this.mode()) {
+      case 'AUTH':
+        this.bookerService.createToken(this.apiBaseUrl, this.authPayload).subscribe(observer);
+        break;
+      case 'STANDARD':
+        this.bookerService.createStandardBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer);
+        break;
+      case 'VIP':
+        this.bookerService.createVipBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer);
+        break;
+      case 'EVENT':
+        this.bookerService.createEventBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer);
+        break;
+      case 'LONGSTAY':
+        this.bookerService.createLongStayBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer);
+        break;
+      case 'GROUP':
+        this.bookerService.createGroupBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer);
+        break;
     }
   }
 }
