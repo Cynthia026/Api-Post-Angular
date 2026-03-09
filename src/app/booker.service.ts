@@ -39,9 +39,9 @@ export class BookerService {
     return this.http.post<BookingResponse>(`${baseUrl}/booking`, payload, { headers: this.headers });
   }
 
+
   // Endpoint 6: Reserva para grupos
-  createGroupBooking(baseUrl: string, payload: BookingPayload): Observable<BookingResponse> {
+   createGroupBooking(baseUrl: string, payload: BookingPayload): Observable<BookingResponse> {
     return this.http.post<BookingResponse>(`${baseUrl}/booking`, payload, { headers: this.headers });
   }
-
 }
