@@ -172,24 +172,26 @@ export class AppComponent {
         break;
 
       case 'LONGSTAY':
-        this.currentBooking = {
-          firstname: 'Estudiante',
-          lastname: 'ITP',
-          totalprice: 4500,
-          depositpaid: true,
-          bookingdates: { checkin: '2026-08-01', checkout: '2026-12-15' },
-          additionalneeds: 'Escritorio amplio e internet de alta velocidad'
+        this.currentBooking = { 
+          firstname: 'Estudiante', 
+          lastname: 'ITP', 
+          totalprice: 4500, 
+          depositpaid: true, 
+          bookingdates: { checkin: '2026-08-01', 
+          checkout: '2026-12-15' }, 
+          additionalneeds: 'Escritorio amplio e internet de alta velocidad' 
         };
         break;
 
       case 'GROUP':
-        this.currentBooking = {
-          firstname: 'Equipo',
-          lastname: 'Desarrollo API',
-          totalprice: 2000,
-          depositpaid: true,
-          bookingdates: { checkin: '2026-07-20', checkout: '2026-07-25' },
-          additionalneeds: 'Sala de juntas reservada'
+        this.currentBooking = { 
+          firstname: 'Equipo', 
+          lastname: 'Desarrollo API', 
+          totalprice: 2000, 
+          depositpaid: true, 
+          bookingdates: { checkin: '2026-07-20', 
+          checkout: '2026-07-25' }, 
+          additionalneeds: 'Sala de juntas reservada' 
         };
         break;
     }
@@ -241,12 +243,12 @@ export class AppComponent {
       case 'EVENT':
         this.bookerService.createEventBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer);
         break;
-      case 'LONGSTAY':
-        this.bookerService.createLongStayBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer);
+      case 'LONGSTAY': 
+        this.bookerService.createLongStayBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer); 
         break;
-      case 'GROUP':
-        this.bookerService.createGroupBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer);
-        break;
+      case 'GROUP': 
+        this.bookerService.createGroupBooking(this.apiBaseUrl, this.currentBooking).subscribe(observer); 
+
     }
   }
 }
